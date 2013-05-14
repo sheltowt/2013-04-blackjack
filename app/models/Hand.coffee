@@ -4,7 +4,11 @@ class window.Hand extends Backbone.Collection
 
   initialize: (array, @deck, @isDealer) ->
 
-  hit: -> @add(@deck.pop()).last()
+  hit: ->
+    @WinnerOrLoser()
+    @add(@deck.pop()).last()
+
+  stand: -> @trigger('turnEnded')
 
   scores: ->
     # The scores are an array of potential scores.
@@ -17,3 +21,5 @@ class window.Hand extends Backbone.Collection
       score + if card.get 'revealed' then card.get 'value' else 0
     , 0
     if hasAce then [score, score + 10] else [score]
+
+  WinnerOrLoser: -> alert("looser") if @scores > 21 
